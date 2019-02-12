@@ -1,5 +1,5 @@
 const formatMessage = (err, messages) => {
-    return messages[err.code] || 'Oops, something went wrong, please try again or contact an admin';
+    return err && messages[err.code] ? messages[err.code]:  'Oops, something went wrong, please try again or contact an admin';
 };
 
 module.exports = {
