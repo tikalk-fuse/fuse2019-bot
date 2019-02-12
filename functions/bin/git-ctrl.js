@@ -12,7 +12,7 @@ Synopsys: node bin/git-ctrl [cmd] [branch]
 
 const gitCtrl = require('../lib/git-controller')({
   user:     'fuse2019team4',
-  password: 'fuse3#t3am4',
+  password: 'fus3#t3am4',
   repo:     'https://github.com/tikalk-fuse/fuse-2019-the-product.git'
 });
 
