@@ -44,7 +44,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
         return axios(`${SVC_BASE_URL}/kickoff/${featureCode}`)
         .then((body) => {
-            agent.add(body.message)
+            agent.add(body.data.message)
         })
         .catch((err) => console.log('errored - ', err) || agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
@@ -57,7 +57,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
         return axios(`${SVC_BASE_URL}/accept/${featureCode}`)
         .then((body) => {
-            agent.add(body.message)
+            agent.add(body.data.message)
         })
         .catch((err) => console.log('errored - ', err) || agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
@@ -73,7 +73,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
         return axios(`${SVC_BASE_URL}/accept/${featureCode}`)
         .then((body) => {
-            agent.add(body.message)
+            agent.add(body.data.message)
         })
         .catch((err) => console.log('errored - ', err) || agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
@@ -83,7 +83,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
         return axios(`${SVC_BASE_URL}/release`)
         .then((body) => {
-            agent.add(body.message)
+            agent.add(body.data.message)
         })
         .catch((err) => agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
