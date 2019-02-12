@@ -33,7 +33,7 @@ class GitBot {
         this.dir = /\/([^.\/]*)\.git/.exec(repo)[1];console.log('dir', this.dir)
         this.remote = repo.replace('https://', `https://${encodeURIComponent(user)}:${encodeURIComponent(password)}@`);
     }
-    
+
     // git checkout
     async kickoff({branch}) {
         try {
@@ -80,7 +80,7 @@ class GitBot {
         }
     }
 
-    // merge to stage 
+    // merge to stage
     async accept({branch}) {
         try {
             await obtainRepo(this.remote, this.dir);
@@ -90,7 +90,7 @@ class GitBot {
             await git(this.dir).mergeFromTo(branch, 'stage');
             console.log('gitCtrl.accept - pushing');
             const summary = await git(this.dir).push('origin', 'stage');
-            console.log('gitCtrl.accept - cleanup ', branch);   
+            console.log('gitCtrl.accept - cleanup ', branch);
             await git(this.dir).push('origin', branch, {'--delete': null});
             return summary;
         } catch(err) {

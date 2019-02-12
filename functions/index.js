@@ -41,7 +41,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 agent.add(msg);
             })
             .catch((err) => {
-                const msg = msgController.kickedOffFailed(featureCode);
+                const msg = msgController.kickedOffFailed(featureCode, err);
                 agent.add(msg);
             })
     }
