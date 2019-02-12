@@ -30,9 +30,11 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     console.log('wtf');
     const agent = new WebhookClient({request, response});
     const parameters = request.body.queryResult.parameters;
+    const fulfillmentText = request.body.queryResult.fulfillmentText;
 
     console.log('Dialogflow Request headers: ' + JSON.stringify(request.headers));
     console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
+    agent.add(fulfillmentText);
 
     async function kickoffEffort(agent) {
       
@@ -54,7 +56,6 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         //extract parameters
         const featureCode = agent.parameters['feature-code'];
         //notify the user for choose
-        agent.add(`You chose feature-code: ${featureCode}`);
 
         return axios(`${SVC_BASE_URL}/accept/${featureCode}`)
         .then((body) => {
