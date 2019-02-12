@@ -8,14 +8,18 @@ admin.initializeApp(functions.config().firebase);
 // Initialize Cloud Firestore through Firebase
 const db = admin.firestore();
 
-const gitController = require('./lib/git-controller')({});
+const gitController = require('./lib/git-controller')({
+  user:     'fuse2019team4',
+  password: 'fus3#t3am4',
+  repo:     'https://github.com/tikalk-fuse/fuse-2019-the-product.git'
+});
 const msgController = require('./lib/msg-formatter');
 
 
 process.env.DEBUG = 'dialogflow:debug'; // enables lib debugging statements
 
-function logAgent(agent) {
-    console.log(util.inspect(agent, {showHidden: true, depth: 1}));
+function logAgent(agent, title) {
+    console.log(title, util.inspect(agent, {showHidden: true, depth: 1}));
 }
 
 
@@ -28,14 +32,14 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
 
     async function kickoffEffort(agent) {
+        logAgent('kickoffEffort', agent);
+
         //extract parameters
         const featureCode = agent.parameters['feature-code']; // string, branch name
         //notify the user for choose
         agent.add(`You chose feature-code: ${featureCode}`);
 
-        logAgent(agent);
-
-        return gitController.kickoff(featureCode)
+        return gitController.kickoff({branch:featureCode})
             .then(() => {
                 const msg = msgController.kickedOffSuccess(featureCode);
                 agent.add(msg);
@@ -47,12 +51,13 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     }
 
     async function acceptEffort(agent) {
+        logAgent('acceptEffort', agent);
         //extract parameters
         const featureCode = agent.parameters['feature-code'];
         //notify the user for choose
         agent.add(`You chose feature-code: ${featureCode}`);
 
-        gitController.accept()
+        gitController.accept({branch:featureCode})
             .then(() => {
                 const msg = msgController.acceptSuccess(featureCode);
                 agent.add(msg);
@@ -64,12 +69,15 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     }
 
     async function rejectEffort(agent) {
+        logAgent('rejectEffort', agent);
+
         //extract parameters
         const featureCode = agent.parameters['feature-code'];
         //notify the user for choose
-        agent.add(`You chose feature-code: ${featureCode}`);
 
-        gitController.reject()
+        agent.add(`You chose feature-code: ${featureCode}`);
+        
+        gitController.reject({branch:featureCode})
             .then(() => {
                 const msg = msgController.rejectSuccess(featureCode);
                 agent.add(msg);
@@ -81,6 +89,8 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     }
 
     async function releaseToProd(agent) {
+        logAgent('releaseToProd', agent);
+
     }
 
 // Run the proper function handler based on the matched Dialogflow intent name
