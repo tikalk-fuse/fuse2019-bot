@@ -5,15 +5,15 @@ const formatMessage = (err, messages) => {
 module.exports = {
     kickedOffSuccess: (featureCode) => `
         Ok, your new branch is ready
-    You can go check it out here: ${featureCode}`,
+    You can go check it out here: http://osherl.net.s3-website-us-east-1.amazonaws.com/${featureCode}`,
     kickedOffFailed: (featureCode, err) => formatMessage(err, {
         EGITBRANCHEXISTS: `
-            Oops! it seems the branch name (${featureCode})  is taken, please choose another name or remove the existing branch by typing: "reject ${featureCode}"        
+            Oops! it seems the branch name (${featureCode}) is taken, please choose another name or remove the existing branch by typing: "reject ${featureCode}"        
         `
     }),
     acceptSuccess: (featureCode) => `
         We did it! the branch ${ featureCode } is ready.
-        Go check it out here: ${ featureCode }    
+        Go check it out here: http://osherl.net.s3-website-us-east-1.amazonaws.com/${ featureCode }    
     `,
     acceptFailed: (featureCode, err) => formatMessage(err, {
         EGITBRANCHNOTFOUND: `
