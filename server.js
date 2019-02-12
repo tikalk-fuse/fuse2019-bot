@@ -8,8 +8,8 @@ const gitController = require('./functions/lib/git-controller')({
 });
 const msgController = require('./functions/lib/msg-formatter');
 
-app.get('/kickoff', (req, res) => {
-    const featureCode = req.query.featureCode;
+app.get('/kickoff/:featureCode', (req, res) => {
+    const featureCode = req.params.featureCode;
 
     gitController.kickoff({branch:featureCode})
         .then(() => {
@@ -17,7 +17,8 @@ app.get('/kickoff', (req, res) => {
 
             res.type('json')
             res.send({
-                message: msg
+                message: msg,
+                success: true
             })
         })
         .catch((err) => {
@@ -36,16 +37,17 @@ app.get('/kickoff', (req, res) => {
         })
 });
 
-app.get('/accept', (req, res) => {
-    const featureCode = req.query.featureCode;
+app.get('/accept/:featureCode', (req, res) => {
+    const featureCode = req.params.featureCode;
 
-    gitController.kickoff({branch:featureCode})
+    gitController.accept({branch:featureCode})
         .then(() => {
             const msg = msgController.acceptSuccess(featureCode);
 
             res.type('json')
             res.send({
-                message: msg
+                message: msg,
+                success: true
             })
         })
         .catch((err) => {
@@ -64,16 +66,17 @@ app.get('/accept', (req, res) => {
         })
 });
 
-app.get('/reject', (req, res) => {
-    const featureCode = req.query.featureCode;
+app.get('/reject/:featureCode', (req, res) => {
+    const featureCode = req.params.featureCode;
 
-    gitController.kickoff({branch:featureCode})
+    gitController.reject({branch:featureCode})
         .then(() => {
             const msg = msgController.rejectSuccess(featureCode);
 
             res.type('json')
             res.send({
-                message: msg
+                message: msg,
+                success: true
             })
         })
         .catch((err) => {
@@ -93,15 +96,14 @@ app.get('/reject', (req, res) => {
 });
 
 app.get('/release', (req, res) => {
-    const featureCode = req.query.featureCode;
-
-    gitController.kickoff({branch:featureCode})
+    gitController.toMaster()
         .then(() => {
             const msg = msgController.kickedOffSuccess(featureCode);
 
             res.type('json')
             res.send({
-                message: msg
+                message: msg,
+                success: true
             })
         })
         .catch((err) => {
