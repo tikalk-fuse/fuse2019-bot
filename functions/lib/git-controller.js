@@ -44,7 +44,7 @@ class GitBot {
             await git(this.dir).checkoutLocalBranch(branch);
             console.log('gitCtrl.kickoff - updating CHANGELOG.md');
             await new Promise((a,r) => {
-                fs.appendFile(path.join(this.dir, 'CHANGELOG.md'), ` - ${branch} - started work at: ${new Date()}`,
+                fs.appendFile(path.join(this.dir, 'CHANGELOG.md'), ` - ${branch} - started work at: ${new Date()}\n`,
                   err => err ? r(err) : a()
                 )
             });
