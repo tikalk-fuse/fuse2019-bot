@@ -3,7 +3,7 @@ const formatMessage = (err, messages) => {
 };
 
 
-const getBrachUrl = (featureCode) => {
+const getBranchUrl = (featureCode) => {
     return `http://osherel.net.s3-website-us-east-1.amazonaws.com/${featureCode}`;
 }
 
@@ -44,5 +44,5 @@ Oops! We were unable to find the project you were looking for.
 Please check if ${featureCode} exists or create it by writing: "lets kickoff ${featureCode}"
         `,
     }),
-    getBrachUrl
+    getBranchUrl
 }
