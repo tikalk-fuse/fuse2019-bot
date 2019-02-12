@@ -47,6 +47,11 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     }
 
     async function acceptEffort(agent) {
+        //extract parameters
+        const featureCode = agent.parameters['feature-code'];
+        //notify the user for choose
+        agent.add(`You chose feature-code: ${featureCode}`);
+
         gitController.accept()
             .then(() => {
                 const msg = msgController.acceptSuccess(featureCode);
@@ -59,6 +64,11 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     }
 
     async function rejectEffort(agent) {
+        //extract parameters
+        const featureCode = agent.parameters['feature-code'];
+        //notify the user for choose
+        agent.add(`You chose feature-code: ${featureCode}`);
+
         gitController.reject()
             .then(() => {
                 const msg = msgController.rejectSuccess(featureCode);
