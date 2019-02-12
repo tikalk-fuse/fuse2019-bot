@@ -8,7 +8,7 @@ const gitController = require('./functions/lib/git-controller')({
 });
 const msgController = require('./functions/lib/msg-formatter');
 
-app.get('/kickoff', (req, res) => {
+app.get('/kickoff/:featureCode', (req, res) => {
     const featureCode = req.params.featureCode;
 
     gitController.kickoff({branch:featureCode})
