@@ -87,7 +87,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     async function releaseToProd(agent) {
         logAgent('releaseToProd', agent);
 
-        return axios(`${SVC_BASE_URL}/accept/${featureCode}`)
+        return axios(`${SVC_BASE_URL}/release`)
         .then((body) => {
             body.success
               ? agent.add(msgController.toMasterSuccess(featureCode))
