@@ -48,6 +48,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 const msg = msgController.kickedOffFailed(featureCode, err);
                 agent.add(msg);
             })
+            .catch((err) => agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
 
     async function acceptEffort(agent) {
@@ -57,7 +58,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         //notify the user for choose
         agent.add(`You chose feature-code: ${featureCode}`);
 
-        gitController.accept({branch:featureCode})
+        return gitController.accept({branch:featureCode})
             .then(() => {
                 const msg = msgController.acceptSuccess(featureCode);
                 agent.add(msg);
@@ -66,6 +67,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 const msg = msgController.acceptFailed(featureCode);
                 agent.add(msg);
             })
+            .catch((err) => agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
 
     async function rejectEffort(agent) {
@@ -77,7 +79,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
         agent.add(`You chose feature-code: ${featureCode}`);
         
-        gitController.reject({branch:featureCode})
+        return gitController.reject({branch:featureCode})
             .then(() => {
                 const msg = msgController.rejectSuccess(featureCode);
                 agent.add(msg);
@@ -86,10 +88,22 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 const msg = msgController.rejectFailed(featureCode);
                 agent.add(msg);
             })
+            .catch((err) => agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
 
     async function releaseToProd(agent) {
         logAgent('releaseToProd', agent);
+
+        return gitController.toMaster()
+            .then(() => {
+                const msg = msgController.toMasterSuccess(featureCode);
+                agent.add(msg);
+            })
+            .catch((err) => {
+                const msg = msgController.toMasterFailed(featureCode);
+                agent.add(msg);
+            })
+            .catch((err) => agent.add('oh, dear. snap. sorry, something had hit me...'))
 
     }
 
