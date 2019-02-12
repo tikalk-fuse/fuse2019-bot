@@ -1,0 +1,19 @@
+{
+  "name": "fuse2019-bot",
+  "version": "1.0.0",
+  "description": "git bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tikalk-fuse/fuse2019-bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tikalk-fuse/fuse2019-bot/issues"
+  },
+  "homepage": "https://github.com/tikalk-fuse/fuse2019-bot#readme"
+}
