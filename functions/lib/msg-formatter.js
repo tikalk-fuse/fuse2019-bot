@@ -5,6 +5,7 @@ const ERR_PROJECT_NAME_DOES_NOT_EXIST = 'ERR_PROJECT_NAME_DOES_NOT_EXIST';
 const ERR_UNIDENTIFIED = 'ERR_UNIDENTIFIED';
 const ERR_INSUFFICIENT_PERMISSIONS = 'ERR_INSUFFICIENT_PERMISSIONS';
 
+console.log("File is up to date")
 
 const identifyErrorCase = (msg) => {
     let err = ERR_UNIDENTIFIED;
@@ -31,7 +32,7 @@ const identifyErrorCase = (msg) => {
 const formatMessage = (err, messages) => {
     const code = identifyErrorCase(err);
 
-    return messages[code] || 'Unknown Error';
+    return messages[code] || 'Oops, something went wrong, please try again or contact an admin';
 };
 
 module.exports = {
