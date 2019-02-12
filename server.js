@@ -17,7 +17,8 @@ app.get('/kickoff/:featureCode', (req, res) => {
 
             res.type('json')
             res.send({
-                message: msg
+                message: msg,
+                success: true
             })
         })
         .catch((err) => {
@@ -45,7 +46,8 @@ app.get('/accept/:featureCode', (req, res) => {
 
             res.type('json')
             res.send({
-                message: msg
+                message: msg,
+                success: true
             })
         })
         .catch((err) => {
@@ -73,7 +75,8 @@ app.get('/reject/:featureCode', (req, res) => {
 
             res.type('json')
             res.send({
-                message: msg
+                message: msg,
+                success: true
             })
         })
         .catch((err) => {
@@ -99,7 +102,8 @@ app.get('/release', (req, res) => {
 
             res.type('json')
             res.send({
-                message: msg
+                message: msg,
+                success: true
             })
         })
         .catch((err) => {
