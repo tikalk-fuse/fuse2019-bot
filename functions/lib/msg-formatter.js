@@ -8,6 +8,8 @@ const ERR_INSUFFICIENT_PERMISSIONS = 'ERR_INSUFFICIENT_PERMISSIONS';
 console.log("File is up to date")
 
 const identifyErrorCase = (msg) => {
+    console.log("File is up to date")
+
     let err = ERR_UNIDENTIFIED;
 
     const needles = {
