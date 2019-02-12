@@ -4,9 +4,8 @@ const formatMessage = (err, messages) => {
 
 module.exports = {
     kickedOffSuccess: (featureCode) => `
-        Success! We have successfully kicked off a new branch.
-    Your repos is located at: ${featureCode}
-    Url: ${featureCode}`,
+        Ok, your new branch is ready
+    You can go check it out here: ${featureCode}`,
     kickedOffFailed: (featureCode, err) => formatMessage(err, {
         EGITBRANCHEXISTS: `
             Oops! it seems the banch name (${featureCode})  is taken, please choose another name or remove the existing branch by typing: "reject ${featureCode}"        
