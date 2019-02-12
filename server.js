@@ -11,9 +11,11 @@ const msgController = require('./functions/lib/msg-formatter');
 app.use(cors());
 app.get('/kickoff/:featureCode', (req, res) => {
     const featureCode = req.params.featureCode;
+    console.log("web.kickoff - start")
 
     gitController.kickoff({branch:featureCode})
         .then(() => {
+            console.log("web.kickoff - success")
             const msg = msgController.kickedOffSuccess(featureCode);
 
             res.type('json')
@@ -23,6 +25,7 @@ app.get('/kickoff/:featureCode', (req, res) => {
             })
         })
         .catch((err) => {
+            console.log("web.kickoff - failure", err)
             const msg = msgController.kickedOffFailed(featureCode, err);
 
             res.type('json')
@@ -31,6 +34,8 @@ app.get('/kickoff/:featureCode', (req, res) => {
             })
         })
         .catch((err) => {
+            console.log("web.kickoff - fatal", err)
+
             res.type('json')
             res.send({
                 message: 'oh, dear. snap. sorry, something had hit me...'
