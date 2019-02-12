@@ -13,22 +13,22 @@ module.exports = {
         `
     }),
     acceptSuccess: (featureCode) => `
-        Success! We were able to mash all of the changes together.
+        We did it! the branch ${ featureCode } is ready.
         Go check it out here: ${ featureCode }    
     `,
     acceptFailed: (featureCode, err) => formatMessage(err, {
         EGITBRANCHNOTFOUND: `
             Oops! We were unable to find the project you were looking for.
-            Please check that ${featureCode} exists or created it by writing: "lets kickoff ${featureCode}"
+            Please check if ${featureCode} exists or create it by writing: "lets kickoff ${featureCode}"
         `
     }),
     rejectSuccess: (featureCode) => `
-        Ok, The branch ${ featureCode } has been removed, now what?.    
+        Ok, The branch ${ featureCode } has been removed.    
     `,
     rejectFailed: (featureCode, err) => formatMessage(err, {
         EGITBRANCHNOTFOUND: `
             Oops! We were unable to find the project you were looking for.
-            Please check that ${featureCode} exists or created it by writing: "lets kickoff ${featureCode}"
+            Please check if ${featureCode} exists or create it by writing: "lets kickoff ${featureCode}"
         `,
     }),
 }
