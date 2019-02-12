@@ -44,9 +44,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
         return axios(`${SVC_BASE_URL}/kickoff/${featureCode}`)
         .then((body) => {
-            body.success
-              ? agent.add(msgController.kickedOffSuccess(featureCode))
-              : agent.add(msgController.kickedOffFailed(featureCode))
+            agent.add(body.message)
         })
         .catch((err) => console.log('errored - ', err) || agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
@@ -59,9 +57,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
         return axios(`${SVC_BASE_URL}/accept/${featureCode}`)
         .then((body) => {
-            body.success
-              ? agent.add(msgController.acceptSuccess(featureCode))
-              : agent.add(msgController.acceptFailed(featureCode))
+            agent.add(body.message)
         })
         .catch((err) => console.log('errored - ', err) || agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
@@ -77,9 +73,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
         return axios(`${SVC_BASE_URL}/accept/${featureCode}`)
         .then((body) => {
-            body.success
-              ? agent.add(msgController.rejectSuccess(featureCode))
-              : agent.add(msgController.rejectFailed(featureCode))
+            agent.add(body.message)
         })
         .catch((err) => console.log('errored - ', err) || agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
@@ -89,9 +83,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
         return axios(`${SVC_BASE_URL}/release`)
         .then((body) => {
-            body.success
-              ? agent.add(msgController.toMasterSuccess(featureCode))
-              : agent.add(msgController.toMasterFailed(featureCode))
+            agent.add(body.message)
         })
         .catch((err) => agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
