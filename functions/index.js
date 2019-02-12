@@ -7,7 +7,9 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 // Initialize Cloud Firestore through Firebase
 const db = admin.firestore();
+
 const gitController = require('./lib/git-controller')({});
+const msgController = require('./lib/msg-formatter');
 
 
 process.env.DEBUG = 'dialogflow:debug'; // enables lib debugging statements
@@ -26,24 +28,46 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
 
     async function kickoffEffort(agent) {
-        // extract params from agent
-        // pass parmas to kickof
-        const result = await gitController.kickoff()
-        // then()
-        //     success: return ok
-        //     catch: return message
+        //extract parameters
+        const featureCode = agent.parameters['feature-code'];
+        //notify the user for choose
+        agent.add(`You chose feature-code: ${featureCode}`);
 
-        // return gitController.kickoff(p)
-        //     .then(() => { OK })
-        //     .catch((er)) => {...})
+        logAgent(agent);
+
+        return gitController.kickoff(featureCode)
+            .then(() => {
+                const msg = msgController.kickedOffSuccess(featureCode);
+                agent.add(msg);
+            })
+            .catch((err) => {
+                const msg = msgController.kickedOffFailed(featureCode);
+                agent.add(msg);
+            })
     }
 
     async function acceptEffort(agent) {
         gitController.accept()
+            .then(() => {
+                const msg = msgController.acceptSuccess(featureCode);
+                agent.add(msg);
+            })
+            .catch((err) => {
+                const msg = msgController.acceptFailed(featureCode);
+                agent.add(msg);
+            })
     }
 
     async function rejectEffort(agent) {
         gitController.reject()
+            .then(() => {
+                const msg = msgController.rejectSuccess(featureCode);
+                agent.add(msg);
+            })
+            .catch((err) => {
+                const msg = msgController.rejectFailed(featureCode);
+                agent.add(msg);
+            })
     }
 
     async function releaseToProd(agent) {
