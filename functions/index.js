@@ -27,9 +27,11 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     console.log('wtf');
     const agent = new WebhookClient({request, response});
     const parameters = request.body.queryResult.parameters;
+    const fulfillmentText = request.body.queryResult.fulfillmentText;
 
     console.log('Dialogflow Request headers: ' + JSON.stringify(request.headers));
     console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
+    agent.add(fulfillmentText);
 
     async function kickoffEffort(agent) {
         logAgent('kickoffEffort', agent);
@@ -37,7 +39,6 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         //extract parameters
         const featureCode = agent.parameters['feature-code']; // string, branch name
         //notify the user for choose
-        agent.add(`You chose feature-code: ${featureCode}`);
 
         return gitController.kickoff({branch:featureCode})
             .then(() => {
@@ -56,7 +57,6 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         //extract parameters
         const featureCode = agent.parameters['feature-code'];
         //notify the user for choose
-        agent.add(`You chose feature-code: ${featureCode}`);
 
         return gitController.accept({branch:featureCode})
             .then(() => {
@@ -77,8 +77,6 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         const featureCode = agent.parameters['feature-code'];
         //notify the user for choose
 
-        agent.add(`You chose feature-code: ${featureCode}`);
-        
         return gitController.reject({branch:featureCode})
             .then(() => {
                 const msg = msgController.rejectSuccess(featureCode);

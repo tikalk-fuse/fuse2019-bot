@@ -30,4 +30,13 @@ module.exports = {
             Please check if ${featureCode} exists or create it by writing: "lets kickoff ${featureCode}"
         `,
     }),
+    toMasterSuccess: (featureCode) => `
+        Ok, The branch ${ featureCode } has been pushed to master.    
+    `,
+    toMasterFailed: (featureCode, err) => formatMessage(err, {
+        EGITBRANCHNOTFOUND: `
+            Oops! We were unable to find the project you were looking for.
+            Please check if ${featureCode} exists or create it by writing: "lets kickoff ${featureCode}"
+        `,
+    }),
 }
