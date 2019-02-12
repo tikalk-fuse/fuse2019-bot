@@ -8,7 +8,7 @@ module.exports = {
     You can go check it out here: ${featureCode}`,
     kickedOffFailed: (featureCode, err) => formatMessage(err, {
         EGITBRANCHEXISTS: `
-            Oops! it seems the banch name (${featureCode})  is taken, please choose another name or remove the existing branch by typing: "reject ${featureCode}"        
+            Oops! it seems the branch name (${featureCode})  is taken, please choose another name or remove the existing branch by typing: "reject ${featureCode}"        
         `
     }),
     acceptSuccess: (featureCode) => `
