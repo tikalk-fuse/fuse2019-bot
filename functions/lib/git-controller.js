@@ -33,7 +33,7 @@ class GitBot {
         this.dir = /\/([^.\/]*)\.git/.exec(repo)[1];console.log('dir', this.dir)
         this.remote = repo.replace('https://', `https://${encodeURIComponent(user)}:${encodeURIComponent(password)}@`);
     }
-
+    
     // git checkout
     async kickoff({branch}) {
         try {
@@ -80,7 +80,7 @@ class GitBot {
         }
     }
 
-    // merge to stage
+    // merge to stage 
     async accept({branch}) {
         try {
             await obtainRepo(this.remote, this.dir);
@@ -90,7 +90,8 @@ class GitBot {
             await git(this.dir).mergeFromTo(branch, 'stage');
             console.log('gitCtrl.accept - pushing');
             const summary = await git(this.dir).push('origin', 'stage');
-            console.log('gitCtrl.accept - cleanup ', branch);
+            console.log('gitCtrl.accept - cleanup ', branch);   
+            await git(this.dir).deleteLocalBranch(branch);
             await git(this.dir).push('origin', branch, {'--delete': null});
             return summary;
         } catch(err) {
@@ -100,6 +101,17 @@ class GitBot {
             }
             throw assign(err, {branch});
         }
+    }
+
+    async toMaster() {
+        await obtainRepo(this.remote, this.dir);
+        console.log('gitCtrl.toMaster - checking out master');
+        await git(this.dir).checkout('master');
+        console.log('gitCtrl.toMaster - merge stage to master');
+        await git(this.dir).mergeFromTo('stage', 'master');
+        console.log('gitCtrl.toMaster - pushing to origin master')
+        const summary = await git(this.dir).push('origin', 'master');
+        return summary;
     }
 }
 
