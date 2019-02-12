@@ -2,7 +2,6 @@ const formatMessage = (err, messages) => {
     return err && messages[err.code] ? messages[err.code]:  'Oops, something went wrong, please try again or contact an admin';
 };
 
-
 const getBranchUrl = (featureCode) => {
     return `http://osherel.net.s3-website-us-east-1.amazonaws.com/${featureCode}`;
 }
