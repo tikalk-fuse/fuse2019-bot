@@ -71,7 +71,11 @@ class GitBot {
             console.log('gitCtrl.reject - pusing --delete');
             await git(this.dir).push('origin', branch, {'--delete': null});
         } catch(err) {
-            console.warn(err);
+            err = new Error([err]);
+            if (err.message.match(/remote ref does not exist/)) {
+                assign(err, {code: 'EGITBRANCHNOTFOUND'})
+            }
+            throw assign(err, {branch});
             return err;
         }
     }
@@ -90,8 +94,11 @@ class GitBot {
             await git(this.dir).push('origin', branch, {'--delete': null});
             return summary;
         } catch(err) {
-            console.warn(err);
-            return err;
+            err = new Error([err]);
+            if (err.message.match(/remote ref does not exist/)) {
+                assign(err, {code: 'EGITBRANCHNOTFOUND'})
+            }
+            throw assign(err, {branch});
         }
     }
 }
