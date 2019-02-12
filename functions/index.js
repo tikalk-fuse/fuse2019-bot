@@ -71,7 +71,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
         agent.add(`You chose feature-code: ${featureCode}`);
 
-        return axios(`${SVC_BASE_URL}/accept/${featureCode}`)
+        return axios(`${SVC_BASE_URL}/reject/${featureCode}`)
         .then((body) => {
             agent.add(body.data.message)
         })
