@@ -29,7 +29,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
     async function kickoffEffort(agent) {
         //extract parameters
-        const featureCode = agent.parameters['feature-code'];
+        const featureCode = agent.parameters['feature-code']; // string, branch name
         //notify the user for choose
         agent.add(`You chose feature-code: ${featureCode}`);
 
