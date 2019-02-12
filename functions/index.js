@@ -53,7 +53,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         function checkup(url, msg) {
             axios.get(url)
                 .then(() => agent.add(msg))
-                .catch(err) => setTimeout(() => checkup(url, msg),1000))
+                .catch((err) => setTimeout(() => checkup(url, msg),1000))
         }
     }
 
