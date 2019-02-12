@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors')
 const app = express();
 const port = 80;
 const gitController = require('./functions/lib/git-controller')({
@@ -7,7 +8,7 @@ const gitController = require('./functions/lib/git-controller')({
     repo:     'https://github.com/tikalk-fuse/fuse-2019-the-product.git'
 });
 const msgController = require('./functions/lib/msg-formatter');
-
+app.use(cors());
 app.get('/kickoff/:featureCode', (req, res) => {
     const featureCode = req.params.featureCode;
 
