@@ -37,7 +37,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     agent.add(fulfillmentText);
 
     async function kickoffEffort(agent) {
-      
+
         logAgent('kickoffEffort', agent);
         const featureCode = agent.parameters['feature-code']; // string, branch name
         agent.add(`You chose feature-code: ${featureCode}`);
@@ -48,7 +48,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
               ? agent.add(msgController.kickedOffSuccess(featureCode))
               : agent.add(msgController.kickedOffFailed(featureCode))
         })
-        .catch((err) => agent.add('oh, dear. snap. sorry, something had hit me...'))
+        .catch((err) => console.log('errored - ', err) || agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
 
     async function acceptEffort(agent) {
@@ -63,7 +63,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
               ? agent.add(msgController.acceptSuccess(featureCode))
               : agent.add(msgController.acceptFailed(featureCode))
         })
-        .catch((err) => agent.add('oh, dear. snap. sorry, something had hit me...'))
+        .catch((err) => console.log('errored - ', err) || agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
 
     async function rejectEffort(agent) {
@@ -81,7 +81,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
               ? agent.add(msgController.rejectSuccess(featureCode))
               : agent.add(msgController.rejectFailed(featureCode))
         })
-        .catch((err) => agent.add('oh, dear. snap. sorry, something had hit me...'))
+        .catch((err) => console.log('errored - ', err) || agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
 
     async function releaseToProd(agent) {
