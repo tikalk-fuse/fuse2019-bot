@@ -21,6 +21,7 @@ app.get('/kickoff/:featureCode', (req, res) => {
             res.type('json')
             res.send({
                 message: msg,
+                url: msgController.getBrachUrl(featureCode),
                 success: true
             })
         })

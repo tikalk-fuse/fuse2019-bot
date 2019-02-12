@@ -3,6 +3,7 @@ const util = require('util');
 const functions = require('firebase-functions');
 const {WebhookClient} = require('dialogflow-fulfillment');
 const admin = require('firebase-admin');
+
 // Required for side-effects
 admin.initializeApp(functions.config().firebase);
 // Initialize Cloud Firestore through Firebase
@@ -44,9 +45,16 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
         return axios(`${SVC_BASE_URL}/kickoff/${featureCode}`)
         .then((body) => {
+            agent.add("Just a moment, I`ll let you know when its ready!")
             agent.add(body.data.message)
         })
         .catch((err) => console.log('errored - ', err) || agent.add('oh, dear. snap. sorry, something had hit me...'))
+
+        function checkup(url, msg) {
+            axios.get(url)
+                .then(() => agent.add(msg))
+                .catch(err) => setTimeout(() => checkup(url, msg),1000))
+        }
     }
 
     async function acceptEffort(agent) {
