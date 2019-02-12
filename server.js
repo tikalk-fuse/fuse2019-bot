@@ -98,7 +98,7 @@ app.get('/reject/:featureCode', (req, res) => {
 app.get('/release', (req, res) => {
     gitController.toMaster()
         .then(() => {
-            const msg = msgController.kickedOffSuccess(featureCode);
+            const msg = msgController.toMasterSuccess("");
 
             res.type('json')
             res.send({
@@ -107,7 +107,7 @@ app.get('/release', (req, res) => {
             })
         })
         .catch((err) => {
-            const msg = msgController.kickedOffFailed(featureCode, err);
+            const msg = msgController.toMasterFailed("", err);
 
             res.type('json')
             res.send({
