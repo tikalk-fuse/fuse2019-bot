@@ -7,6 +7,9 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 // Initialize Cloud Firestore through Firebase
 const db = admin.firestore();
+const SVC_BASE_URL = 'http://54.198.91.234';
+
+const axios = require('axios');
 
 const gitController = require('./lib/git-controller')({
   user:     'fuse2019team4',
@@ -32,23 +35,18 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
 
     async function kickoffEffort(agent) {
+      
         logAgent('kickoffEffort', agent);
-
-        //extract parameters
         const featureCode = agent.parameters['feature-code']; // string, branch name
-        //notify the user for choose
         agent.add(`You chose feature-code: ${featureCode}`);
 
-        return gitController.kickoff({branch:featureCode})
-            .then(() => {
-                const msg = msgController.kickedOffSuccess(featureCode);
-                agent.add(msg);
-            })
-            .catch((err) => {
-                const msg = msgController.kickedOffFailed(featureCode);
-                agent.add(msg);
-            })
-            .catch((err) => agent.add('oh, dear. snap. sorry, something had hit me...'))
+        return axios(`${SVC_BASE_URL}/kickoff/${featureCode}`)
+        .then((body) => {
+            body.success
+              ? agent.add(msgController.kickedOffSuccess(featureCode))
+              : agent.add(msgController.kickedOffFailed(featureCode))
+        })
+        .catch((err) => agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
 
     async function acceptEffort(agent) {
@@ -58,16 +56,13 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         //notify the user for choose
         agent.add(`You chose feature-code: ${featureCode}`);
 
-        return gitController.accept({branch:featureCode})
-            .then(() => {
-                const msg = msgController.acceptSuccess(featureCode);
-                agent.add(msg);
-            })
-            .catch((err) => {
-                const msg = msgController.acceptFailed(featureCode);
-                agent.add(msg);
-            })
-            .catch((err) => agent.add('oh, dear. snap. sorry, something had hit me...'))
+        return axios(`${SVC_BASE_URL}/accept/${featureCode}`)
+        .then((body) => {
+            body.success
+              ? agent.add(msgController.acceptSuccess(featureCode))
+              : agent.add(msgController.acceptFailed(featureCode))
+        })
+        .catch((err) => agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
 
     async function rejectEffort(agent) {
@@ -78,36 +73,29 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         //notify the user for choose
 
         agent.add(`You chose feature-code: ${featureCode}`);
-        
-        return gitController.reject({branch:featureCode})
-            .then(() => {
-                const msg = msgController.rejectSuccess(featureCode);
-                agent.add(msg);
-            })
-            .catch((err) => {
-                const msg = msgController.rejectFailed(featureCode);
-                agent.add(msg);
-            })
-            .catch((err) => agent.add('oh, dear. snap. sorry, something had hit me...'))
+
+        return axios(`${SVC_BASE_URL}/accept/${featureCode}`)
+        .then((body) => {
+            body.success
+              ? agent.add(msgController.rejectSuccess(featureCode))
+              : agent.add(msgController.rejectFailed(featureCode))
+        })
+        .catch((err) => agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
 
     async function releaseToProd(agent) {
         logAgent('releaseToProd', agent);
 
-        return gitController.toMaster()
-            .then(() => {
-                const msg = msgController.toMasterSuccess(featureCode);
-                agent.add(msg);
-            })
-            .catch((err) => {
-                const msg = msgController.toMasterFailed(featureCode);
-                agent.add(msg);
-            })
-            .catch((err) => agent.add('oh, dear. snap. sorry, something had hit me...'))
-
+        return axios(`${SVC_BASE_URL}/accept/${featureCode}`)
+        .then((body) => {
+            body.success
+              ? agent.add(msgController.toMasterSuccess(featureCode))
+              : agent.add(msgController.toMasterFailed(featureCode))
+        })
+        .catch((err) => agent.add('oh, dear. snap. sorry, something had hit me...'))
     }
 
-// Run the proper function handler based on the matched Dialogflow intent name
+    // Run the proper function handler based on the matched Dialogflow intent name
     let intentMap = new Map();
     intentMap.set('kickoff-effort', kickoffEffort);
     intentMap.set('accept-effort', acceptEffort);
