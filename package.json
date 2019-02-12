@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/tikalk-fuse/fuse2019-bot/issues"
   },
-  "homepage": "https://github.com/tikalk-fuse/fuse2019-bot#readme"
+  "homepage": "https://github.com/tikalk-fuse/fuse2019-bot#readme",
+  "dependencies": {
+    "simple-git": "^1.107.0"
+  }
 }
