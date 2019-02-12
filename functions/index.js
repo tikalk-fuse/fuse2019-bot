@@ -46,7 +46,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         return axios(`${SVC_BASE_URL}/kickoff/${featureCode}`)
         .then((body) => {
             agent.add("Just a moment, I`ll let you know when its ready!")
-            agent.add(body.data.message)
+            checkup(body.data.url, body.data.message);
         })
         .catch((err) => console.log('errored - ', err) || agent.add('oh, dear. snap. sorry, something had hit me...'))
 
