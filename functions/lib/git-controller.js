@@ -32,7 +32,8 @@ class GitBot {
     async kickoff({featureCode}) {
         try {
         await obtainRepo();
-        await git().checkoutBranch(featureCode);
+        console.log('checking out ' , featureCode);
+        await git().raw(['checkout', '-b', featureCode]);
 
         } catch(err) {
             console.warn(err);
@@ -65,7 +66,7 @@ const botFactory = (config) =>  new GitBot(config);
 
 botFactory({}).kickoff({featureCode: 'feature/666-yair-test-fix'})
 .then(() => {
-   console.log(foo);
+   console.log('success');
 })
 .catch(err => console.log(err));
 
