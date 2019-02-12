@@ -4,7 +4,7 @@ const formatMessage = (err, messages) => {
 
 module.exports = {
     kickedOffSuccess: (featureCode) => `
-        Ok, your new branch is ready
+    Ok, your new branch is ready
     You can go check it out here: http://osherel.net.s3-website-us-east-1.amazonaws.com/${featureCode}`,
     kickedOffFailed: (featureCode, err) => formatMessage(err, {
         EGITBRANCHEXISTS: `
