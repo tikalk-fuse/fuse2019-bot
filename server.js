@@ -38,7 +38,7 @@ app.get('/kickoff/:featureCode', (req, res) => {
 });
 
 app.get('/accept/:featureCode', (req, res) => {
-    const featureCode = req.featureCode;
+    const featureCode = req.params.featureCode;
 
     gitController.accept({branch:featureCode})
         .then(() => {
