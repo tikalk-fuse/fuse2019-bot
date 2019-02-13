@@ -45,8 +45,9 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
         return axios(`${SVC_BASE_URL}/kickoff/${featureCode}`)
         .then((body) => {
-            agent.add("Just a moment, I`ll let you know when its ready!")
-            checkup(body.data.url, body.data.message);
+            agent.add(body.data.message)
+            // agent.add("Just a moment, I`ll let you know when its ready!")
+            // checkup(body.data.url, body.data.message);
         })
         .catch((err) => console.log('errored - ', err) || agent.add('oh, dear. snap. sorry, something had hit me...'))
 
@@ -54,8 +55,11 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
             console.log("checkup parameters - ", url, msg);
 
             axios.get(url)
-                .then(() => console.log("checkup result - Success writing") || agent.add(msg))
-                .catch((err) => console.log("checkup result - Failed trying again") || setTimeout(() => checkup(url, msg),1000))
+                .then(() => {
+                    console.log("checkup result - Success writing", msg);
+                    agent.add(msg)
+                })
+                .catch((err) => console.log("checkup result - Failed trying again") || setTimeout(() => checkup(url, msg), 1000))
         }
     }
 
