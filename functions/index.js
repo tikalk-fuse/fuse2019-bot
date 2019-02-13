@@ -51,9 +51,11 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         .catch((err) => console.log('errored - ', err) || agent.add('oh, dear. snap. sorry, something had hit me...'))
 
         function checkup(url, msg) {
+            console.log("checkup parameters - ", url, msg);
+
             axios.get(url)
-                .then(() => console.log("Success writing") || agent.add(msg))
-                .catch((err) => console.log("Failed trying again") || setTimeout(() => checkup(url, msg),1000))
+                .then(() => console.log("checkup result - Success writing") || agent.add(msg))
+                .catch((err) => console.log("checkup result - Failed trying again") || setTimeout(() => checkup(url, msg),1000))
         }
     }
 

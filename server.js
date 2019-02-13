@@ -15,8 +15,9 @@ app.get('/kickoff/:featureCode', (req, res) => {
 
     gitController.kickoff({branch:featureCode})
         .then(() => {
-            console.log("web.kickoff - success")
             const msg = msgController.kickedOffSuccess(featureCode);
+
+            console.log("web.kickoff - success", msg)
 
             res.type('json')
             res.send({
